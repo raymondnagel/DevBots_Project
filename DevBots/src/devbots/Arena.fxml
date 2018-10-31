@@ -14,7 +14,7 @@
       <HBox>
          <children>
             <Pane fx:id="pnArenaPane" prefHeight="1024.0" prefWidth="1024.0" style="-fx-background-color: black;" />
-            <VBox fx:id="vboxBots" prefHeight="200.0" prefWidth="400.0" HBox.hgrow="ALWAYS" fillWidth="true" />
+            <VBox fx:id="vboxBots" prefWidth="200.0" HBox.hgrow="ALWAYS" fillWidth="true" />
          </children>
       </HBox>
    </center>
