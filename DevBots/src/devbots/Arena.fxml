@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="devbots.ArenaController">
+   <center>
+      <HBox>
+         <children>
+            <Pane fx:id="pnArenaPane" prefHeight="1024.0" prefWidth="1024.0" style="-fx-background-color: black;" />
+            <VBox fx:id="vboxBots" prefHeight="200.0" prefWidth="400.0" HBox.hgrow="ALWAYS" fillWidth="true" />
+         </children>
+      </HBox>
+   </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Menu">
+            <items>
+              <MenuItem fx:id="mniStartSim" mnemonicParsing="false" onAction="#startSim" text="Start Simulation" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>
