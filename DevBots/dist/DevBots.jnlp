@@ -8,8 +8,8 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="DevBots.jar" size="25302" download="eager" />
-    <jar href="lib\Duct.jar" size="14232" download="eager" />
+    <jar href="DevBots.jar" size="30040" download="eager" />
+    <jar href="lib\Duct.jar" size="14282" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="DevBots" >
     <param name="requiredFXVersion" value="8.0+"/>

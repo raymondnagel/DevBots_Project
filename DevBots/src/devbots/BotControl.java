@@ -41,6 +41,31 @@ public class BotControl {
         return bot.getScanObjects();
     }
     
+    public int getActions()
+    {
+        return bot.getActions();
+    }
+    
+    public int getFuel()
+    {
+        return bot.getFuel();
+    }
+    
+    public int getRockets()
+    {
+        return bot.getRockets();
+    }
+    
+    public int getBombs()
+    {
+        return bot.getBombs();
+    }
+    
+    public int getScore()
+    {
+        return bot.getScore();
+    }
+    
     public void say(String text)
     {
         System.out.println("[" + bot.getName() + "]: \"" + text + "\"");

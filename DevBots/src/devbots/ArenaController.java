@@ -11,7 +11,9 @@ import static devbots.Global.ANIM_INC;
 import static devbots.Global.H_BLOCKS;
 import static devbots.Global.MAX_STEP_TIME;
 import static devbots.Global.W_BLOCKS;
+import duct.DuctTools;
 import java.io.File;
+import java.io.FileFilter;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -48,15 +50,32 @@ public class ArenaController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        int NUM_TEST_BOTS = 1;
         
-        //for (int y = 1; y <= NUM_TEST_BOTS; y++)
-        //    addBot(Bot.createBot(), 15, 10 + (y*2) );
-        
-        addBot(new File("robots/raybot"), 15, 10 );
-        
-        makeMap(0);
+        makeMap(150);        
+        loadBots();
     }    
+    
+    private void loadBots()
+    {
+        File botFolder = new File("robots");
+        File[] botFolders = botFolder.listFiles((File file) -> {
+            if (file.isDirectory())
+            {
+                return new File(file, "icon.png").exists() &&
+                       new File(file, "program.js").exists();
+            }
+            else
+                return false;
+        });
+        
+        for (File f: botFolders)
+            addBot(f);        
+        
+        for (Bot b: BOTS)
+        {
+            b.updatePanel();
+        }
+    }
     
     private void makeMap(int numWalls)
     {
@@ -95,7 +114,7 @@ public class ArenaController implements Initializable {
         pnArenaPane.getChildren().add(w);
     }
     
-    private void addBot(File botFile, int x, int y)
+    private void addBot(File botFile)
     {
         try {
             
@@ -103,12 +122,20 @@ public class ArenaController implements Initializable {
             Bot bot = Bot.createBot(botFile);
             
             // Add the bot:
-            BOTS.add(bot);
-            bot.setLocationBlock(x, y);
+            BOTS.add(bot);            
             pnArenaPane.getChildren().add(bot);
             
+            // Place the bot:
+            int x = 0, y = 0;
+            do
+            {
+                x = DuctTools.getRandomInt(0, W_BLOCKS);
+                y = DuctTools.getRandomInt(0, H_BLOCKS);
+            } while (MAP[x][y] != null);            
+            bot.setLocationBlock(x, y);
+            
             // Add an info panel for the bot:
-            BotPanel panel = new BotPanel(bot);
+            BotPanel panel = BotPanel.createForBot(bot);
             vboxBots.getChildren().add(panel);
             
         } catch (ScriptException ex) {
@@ -138,6 +165,7 @@ public class ArenaController implements Initializable {
         {
             b.rechargeTurnActions();
             b.runProgram();
+            b.updatePanel();
         }
         
         // Increment all queued actions at the same time:

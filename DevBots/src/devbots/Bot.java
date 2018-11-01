@@ -14,11 +14,15 @@ import static devbots.Global.MAX_BOMBS;
 import static devbots.Global.MAX_FUEL;
 import static devbots.Global.MAX_TURN_MS;
 import static devbots.Global.LOOK_ACTIONS;
+import static devbots.Global.LOOK_FUEL;
 import static devbots.Global.SCAN_ACTIONS;
 import static devbots.Global.MOVE_ACTIONS;
+import static devbots.Global.MOVE_FUEL;
+import static devbots.Global.SCAN_FUEL;
 import static devbots.Global.TURN_ACTIONS;
 import static devbots.Global.VISION_RANGE;
 import static devbots.Global.SCAN_SZ;
+import static devbots.Global.TURN_FUEL;
 import duct.DuctContext;
 import duct.DuctTools;
 import java.awt.Point;
@@ -46,6 +50,7 @@ public class Bot extends Sprite {
     private String program = null;
     private DuctContext duct = null;
     private BotControl controller = null;    
+    private BotPanel panel = null;
     private AbsDir faceDir = AbsDir.N;
     private Integer sightDistance = null;
     private Character sightObject = null;
@@ -54,6 +59,7 @@ public class Bot extends Sprite {
     private int fuel = MAX_FUEL;
     private int rockets = MAX_ROCKETS;
     private int bombs = MAX_BOMBS;
+    private int score = 0;
     
     
     private Bot() {
@@ -107,6 +113,16 @@ public class Bot extends Sprite {
         return this.controller;
     }
     
+    public void setPanel(BotPanel panel)
+    {
+        this.panel = panel;
+    }
+    
+    public void updatePanel()
+    {
+        this.panel.updateInfo();
+    }
+    
     public boolean runProgram()
     {
         long time = System.currentTimeMillis();
@@ -140,11 +156,12 @@ public class Bot extends Sprite {
         this.actions = MAX_ACTIONS;
     }
     
-    private boolean spendActions(int numActions)
+    private boolean spend(int numActions, int numFuel)
     {
-        if (numActions <= actions)
+        if (numActions <= actions && numFuel <= fuel)
         {
             actions -= numActions;
+            fuel -= numFuel;
             return true;
         }
         else
@@ -190,9 +207,34 @@ public class Bot extends Sprite {
         return this.scanObjects;
     }
     
+    public int getActions()
+    {
+        return this.actions;
+    }
+    
+    public int getFuel()
+    {
+        return this.fuel;
+    }
+    
+    public int getRockets()
+    {
+        return this.rockets;
+    }
+    
+    public int getBombs()
+    {
+        return this.bombs;
+    }
+    
+    public int getScore()
+    {
+        return this.score;
+    }
+    
     public boolean look()
     {
-        if (spendActions(LOOK_ACTIONS))
+        if (spend(LOOK_ACTIONS, LOOK_FUEL))
         {
             Point p = this.getLocationBlock();
             for (int v = 1; v <= VISION_RANGE; v++)
@@ -220,7 +262,7 @@ public class Bot extends Sprite {
     
     public boolean scan()
     {
-        if (spendActions(SCAN_ACTIONS))
+        if (spend(SCAN_ACTIONS, SCAN_FUEL))
         {
             Point p = this.getLocationBlock();
             int c = SCAN_SZ/2;
@@ -255,7 +297,7 @@ public class Bot extends Sprite {
     
     public boolean move(AbsDir d)
     {
-        if ( (!isBlocked(d)) && spendActions(MOVE_ACTIONS) )
+        if ( (!isBlocked(d)) && spend(MOVE_ACTIONS, MOVE_FUEL) )
         {
             ACTION_QUEUE.add(new BotMove(this, d));
             return true;
@@ -266,7 +308,7 @@ public class Bot extends Sprite {
     
     public boolean turn(AbsDir d)
     {       
-        if (spendActions(TURN_ACTIONS))
+        if (spend(TURN_ACTIONS, TURN_FUEL))
         {            
             ACTION_QUEUE.add(new BotTurn(this, d));
             return true;

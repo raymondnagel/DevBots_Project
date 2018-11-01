@@ -5,7 +5,9 @@
  */
 package devbots;
 
+import static devbots.ArenaController.MAP;
 import static devbots.Global.ANIM_INC;
+import java.awt.Point;
 
 
 /**
@@ -15,11 +17,14 @@ import static devbots.Global.ANIM_INC;
 public final class BotMove extends TimedAction{
     private Bot bot = null;
     private AbsDir direction;
+    private Point startLoc;
 
     public BotMove(Bot bot, AbsDir dir) {
         super(ANIM_INC);
         this.bot = bot;
         this.direction = dir;
+        
+        startLoc = bot.getLocationBlock();        
     }
     
     @Override
@@ -28,7 +33,12 @@ public final class BotMove extends TimedAction{
     }
 
     @Override
-    protected void _onFinish() {
-        
+    protected void _onFinish() {        
+        if (MAP[startLoc.x][startLoc.y] == bot)
+        {
+            MAP[startLoc.x][startLoc.y] = null;
+        }
+        Point loc = bot.getLocationBlock();
+        MAP[loc.x][loc.y] = bot;
     }
 }
