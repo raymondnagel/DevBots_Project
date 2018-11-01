@@ -3,26 +3,39 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package devbots;
+package devbots.ui;
 
-import static devbots.Bot.ACTION_QUEUE;
-import static devbots.Bot.BOTS;
+import devbots.sprites.Bot;
+import devbots.sprites.Wall;
+import static devbots.sprites.Bot.ACTION_QUEUE;
+import static devbots.sprites.Bot.BOTS;
 import static devbots.Global.ANIM_INC;
 import static devbots.Global.H_BLOCKS;
 import static devbots.Global.MAX_STEP_TIME;
 import static devbots.Global.W_BLOCKS;
+import devbots.sprites.BombPack;
+import devbots.sprites.Consumable;
+import devbots.sprites.FuelTank;
+import devbots.sprites.RocketPack;
+import devbots.sprites.Sprite;
+import devbots.sprites.Treasure;
 import duct.DuctTools;
 import java.io.File;
-import java.io.FileFilter;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.WindowEvent;
 import javax.script.ScriptException;
 
@@ -47,11 +60,13 @@ public class ArenaController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        makeMap(150);        
+        pnArenaPane.setBackground(new Background(new BackgroundFill(new Color(.615, .547, .482, 1.0), CornerRadii.EMPTY, Insets.EMPTY)));
+        makeMap(150, 50, 20, 15, 10);        
         loadBots();
     }    
     
@@ -77,7 +92,7 @@ public class ArenaController implements Initializable {
         }
     }
     
-    private void makeMap(int numWalls)
+    private void makeMap(int numWalls, int numTreasures, int numFuels, int numRockets, int numBombs)
     {
         for (int x = 0; x < W_BLOCKS; x++)
             for (int y = 0; y < H_BLOCKS; y++)
@@ -104,6 +119,22 @@ public class ArenaController implements Initializable {
             int y = r.nextInt(H_BLOCKS);
             addWall(x, y);
         }
+        
+        // Create random treasures:
+        for (int c = 0; c < numTreasures; c++)
+            addConsumable(new Treasure());
+        
+        // Create random fuel tanks:
+        for (int c = 0; c < numFuels; c++)
+            addConsumable(new FuelTank());
+        
+        // Create random rocket packs:
+        for (int c = 0; c < numRockets; c++)
+            addConsumable(new RocketPack());
+        
+        // Create random bomb packs:
+        for (int c = 0; c < numBombs; c++)
+            addConsumable(new BombPack());
     }
     
     private void addWall(int x, int y)
@@ -143,6 +174,18 @@ public class ArenaController implements Initializable {
         }
     }
     
+    private void addConsumable(Consumable c)
+    {        
+        int x = DuctTools.getRandomInt(0, W_BLOCKS);
+        int y = DuctTools.getRandomInt(0, H_BLOCKS);
+        if (MAP[x][y] == null)
+        {
+            pnArenaPane.getChildren().add(c);
+            MAP[x][y] = c;
+            c.setLocationBlock(x, y);
+        }
+    }
+    
     
     @FXML
     private void startSim(ActionEvent event) {
@@ -165,8 +208,7 @@ public class ArenaController implements Initializable {
         {
             b.rechargeTurnActions();
             b.runProgram();
-            b.updatePanel();
-        }
+        }        
         
         // Increment all queued actions at the same time:
         for (int i = 0; i < ANIM_INC; i++)
@@ -187,6 +229,26 @@ public class ArenaController implements Initializable {
             if (elapsedTime < MAX_STEP_TIME)
                 delay(MAX_STEP_TIME - elapsedTime);
         }
+        
+        // Execute all FX stuff at once here:
+        Platform.runLater(() -> {
+            for (int n = pnArenaPane.getChildren().size() - 1; n >= 0; n--)
+            {
+                if (pnArenaPane.getChildren().get(n) instanceof Sprite)
+                {
+                    Sprite s = (Sprite)pnArenaPane.getChildren().get(n);                    
+                    if (s instanceof Bot)
+                    {
+                        ((Bot)s).updatePanel();
+                    }                    
+                    if (s.isFlaggedToRemove())
+                    {
+                        pnArenaPane.getChildren().remove(s);                    
+                    }
+                }
+                    
+            }
+        });
         
         System.out.println("End turn " + turn);
         turn++;

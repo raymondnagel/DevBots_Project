@@ -3,11 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package devbots;
+package devbots.actions;
 
-import static devbots.ArenaController.MAP;
+import devbots.AbsDir;
+import devbots.TimedAction;
+import devbots.sprites.Bot;
+import static devbots.ui.ArenaController.MAP;
 import static devbots.Global.ANIM_INC;
+import devbots.sprites.Consumable;
 import java.awt.Point;
+import javafx.application.Platform;
+import javafx.scene.layout.Pane;
 
 
 /**
@@ -34,11 +40,27 @@ public final class BotMove extends TimedAction{
 
     @Override
     protected void _onFinish() {        
+        
+        // The departed tile should now be null:
         if (MAP[startLoc.x][startLoc.y] == bot)
         {
             MAP[startLoc.x][startLoc.y] = null;
         }
+        
+        // See if anything is already in the new tile:
         Point loc = bot.getLocationBlock();
+        Object obj = MAP[loc.x][loc.y];
+        if (obj != null)
+        {
+            if (obj instanceof Consumable)
+            {
+                Consumable cons = (Consumable)obj;
+                cons.doEffect(bot);
+                cons.flagToRemove();
+            }
+        }
+        
+        // Set the bot at the new tile:
         MAP[loc.x][loc.y] = bot;
     }
 }

@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package devbots;
-
-import javafx.scene.image.ImageView;
+package devbots.sprites;
 
 /**
  *
- * @author Raymond
+ * @author raymond.nagel
  */
-public abstract class Sprite extends ImageView {
-    
-    public abstract char getVisionCode();
+public abstract class Traversable extends Sprite {
     
 }

@@ -22,7 +22,7 @@ public class DevBots extends Application {
     public void start(Stage primaryStage) throws Exception {
         
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(DevBots.class.getResource("Arena.fxml"));
+        loader.setLocation(DevBots.class.getResource("ui/Arena.fxml"));
         BorderPane root = loader.<BorderPane>load();
         
         Scene scene = new Scene(root);

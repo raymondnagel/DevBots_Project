@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package devbots;
+package devbots.sprites;
 
 import static devbots.Global.BLOCK_SZ;
 import javafx.scene.image.Image;
@@ -23,12 +23,7 @@ public class Wall extends Sprite {
     public Wall()
     {
         this.setImage(DEFAULT_IMAGE);
-    }
-    
-    public void setLocationBlock(int x, int y)
-    {
-        this.relocate(x * BLOCK_SZ, y * BLOCK_SZ);
-    }
+    }    
 
     @Override
     public char getVisionCode() {

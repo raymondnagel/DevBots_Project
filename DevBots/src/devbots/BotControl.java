@@ -5,6 +5,8 @@
  */
 package devbots;
 
+import devbots.sprites.Bot;
+
 
 /**
  * A BotControl is the Bot programmer's interface to his/her Bot.

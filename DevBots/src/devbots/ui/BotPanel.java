@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package devbots;
+package devbots.ui;
 
+import devbots.sprites.Bot;
 import static devbots.Global.MAX_FUEL;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

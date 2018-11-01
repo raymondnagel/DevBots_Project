@@ -39,11 +39,18 @@ public class Global {
     
     public static final long MAX_STEP_TIME = 20; // 20=normal, 80=slow
     public static final long MAX_TURN_MS = 10;
+    
     public static final int MAX_FUEL = 999;
     public static final int MAX_ROCKETS = 6;
     public static final int MAX_BOMBS = 3;
+    
     public static final int VISION_RANGE = 7;
     public static final int SCAN_SZ = 3;
+    
+    public static final int TREASURE_UNITS = 10;
+    public static final int FUELTANK_UNITS = 100;
+    public static final int ROCKETS_UNITS = 2;
+    public static final int BOMBS_UNITS = 1;
     
     public static boolean isInBounds(int x, int y)
     {

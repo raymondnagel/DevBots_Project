@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="devbots.ArenaController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="devbots.ui.ArenaController">
    <center>
       <HBox>
          <children>
-            <Pane fx:id="pnArenaPane" prefHeight="1024.0" prefWidth="1024.0" style="-fx-background-color: grey;" />
+            <Pane fx:id="pnArenaPane" prefHeight="1024.0" prefWidth="1024.0" />
             <VBox fx:id="vboxBots" fillWidth="true" prefWidth="200.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>

@@ -3,9 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package devbots;
+package devbots.sprites;
 
-import static devbots.ArenaController.MAP;
+import devbots.AbsDir;
+import devbots.BotControl;
+import devbots.actions.BotMove;
+import devbots.ui.BotPanel;
+import devbots.actions.BotTurn;
+import devbots.Global;
+import devbots.ReadWriteTextFile;
+import devbots.RelDir;
+import devbots.TimedAction;
+import static devbots.ui.ArenaController.MAP;
 import javafx.scene.image.Image;
 import static devbots.Global.BLOCK_SZ;
 import static devbots.Global.MAX_ACTIONS;
@@ -40,7 +49,7 @@ public class Bot extends Sprite {
     public static final ArrayList<TimedAction> ACTION_QUEUE = new ArrayList<>();
     public static final ArrayList<Bot> BOTS = new ArrayList<>();
 
-    private static Image DEFAULT_IMAGE;
+    private static final Image DEFAULT_IMAGE;
     static
     {
         DEFAULT_IMAGE = new Image("devbots/resources/bot.png");
@@ -136,11 +145,6 @@ public class Bot extends Sprite {
         return true;
     }
     
-    public void setLocationBlock(int x, int y)
-    {
-        this.relocate(x * BLOCK_SZ, y * BLOCK_SZ);
-    }
-    
     public void setLocationBlock(Point blockPoint)
     {
         setLocationBlock(blockPoint.x, blockPoint.y);
@@ -176,7 +180,7 @@ public class Bot extends Sprite {
         p.x += d.getX();
         p.y += d.getY();
         
-        if (Global.isInBounds(p.x, p.y) && MAP[p.x][p.y] == null)
+        if (Global.isInBounds(p.x, p.y) && (MAP[p.x][p.y] == null || MAP[p.x][p.y] instanceof Traversable))
             return false;
         else
             return true;
@@ -212,21 +216,37 @@ public class Bot extends Sprite {
         return this.actions;
     }
     
+    public void setFuel(int fuel)
+    {
+        this.fuel = Math.min(fuel, MAX_FUEL);
+    }
     public int getFuel()
     {
         return this.fuel;
-    }
+    }    
     
+    public void setRockets(int rockets)
+    {
+        this.rockets = Math.min(rockets, MAX_ROCKETS);
+    }
     public int getRockets()
     {
         return this.rockets;
     }
     
+    public void setBombs(int bombs)
+    {
+        this.bombs = Math.min(bombs, MAX_BOMBS);
+    }
     public int getBombs()
     {
         return this.bombs;
-    }
+    }    
     
+    public void setScore(int score)
+    {
+        this.score = score;
+    }
     public int getScore()
     {
         return this.score;
