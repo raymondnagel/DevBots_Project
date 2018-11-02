@@ -6,6 +6,7 @@
 package devbots.sprites;
 
 import static devbots.Global.BLOCK_SZ;
+import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 
 /**
@@ -32,4 +33,12 @@ public abstract class Sprite extends ImageView {
     {
         this.relocate(x * BLOCK_SZ, y * BLOCK_SZ);
     }
+    
+    public Point2D getCenterPoint()
+    {
+        double x = this.getLayoutX() + (this.getFitWidth()*.5);
+        double y = this.getLayoutY() + (this.getFitHeight()*.5);
+        return new Point2D(x, y);
+    }
+    
 }

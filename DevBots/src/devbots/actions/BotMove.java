@@ -6,7 +6,6 @@
 package devbots.actions;
 
 import devbots.AbsDir;
-import devbots.TimedAction;
 import devbots.sprites.Bot;
 import static devbots.ui.ArenaController.MAP;
 import static devbots.Global.ANIM_INC;

@@ -13,10 +13,12 @@ import devbots.actions.BotTurn;
 import devbots.Global;
 import devbots.ReadWriteTextFile;
 import devbots.RelDir;
-import devbots.TimedAction;
+import devbots.actions.TimedAction;
 import static devbots.ui.ArenaController.MAP;
 import javafx.scene.image.Image;
 import static devbots.Global.BLOCK_SZ;
+import static devbots.Global.LASER_ACTIONS;
+import static devbots.Global.LASER_FUEL;
 import static devbots.Global.MAX_ACTIONS;
 import static devbots.Global.MAX_ROCKETS;
 import static devbots.Global.MAX_BOMBS;
@@ -32,12 +34,15 @@ import static devbots.Global.TURN_ACTIONS;
 import static devbots.Global.VISION_RANGE;
 import static devbots.Global.SCAN_SZ;
 import static devbots.Global.TURN_FUEL;
+import devbots.actions.BotLaser;
+import devbots.actions.InstantAction;
 import duct.DuctContext;
 import duct.DuctTools;
 import java.awt.Point;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import javafx.geometry.Point2D;
 import javax.script.ScriptException;
 
 /**
@@ -46,7 +51,8 @@ import javax.script.ScriptException;
  */
 public class Bot extends Sprite {
     
-    public static final ArrayList<TimedAction> ACTION_QUEUE = new ArrayList<>();
+    public static final ArrayList<TimedAction> LONG_ACTIONS = new ArrayList<>();
+    public static final ArrayList<InstantAction> SHORT_ACTIONS = new ArrayList<>();
     public static final ArrayList<Bot> BOTS = new ArrayList<>();
 
     private static final Image DEFAULT_IMAGE;
@@ -196,6 +202,14 @@ public class Bot extends Sprite {
         this.faceDir = d;
     }
     
+    public Point2D getFirePoint()
+    {
+        Point2D pt = getCenterPoint();
+        double x = this.getFitWidth() * .5 * (double)faceDir.getX();
+        double y = this.getFitHeight() * .5 * (double)faceDir.getY();
+        return pt.add(x, y);
+    }
+    
     public Character getSightObject()
     {
         return this.sightObject;
@@ -319,7 +333,7 @@ public class Bot extends Sprite {
     {
         if ( (!isBlocked(d)) && spend(MOVE_ACTIONS, MOVE_FUEL) )
         {
-            ACTION_QUEUE.add(new BotMove(this, d));
+            LONG_ACTIONS.add(new BotMove(this, d));
             return true;
         }
         else
@@ -330,7 +344,7 @@ public class Bot extends Sprite {
     {       
         if (spend(TURN_ACTIONS, TURN_FUEL))
         {            
-            ACTION_QUEUE.add(new BotTurn(this, d));
+            LONG_ACTIONS.add(new BotTurn(this, d));
             return true;
         }
         else
@@ -346,6 +360,40 @@ public class Bot extends Sprite {
     {
         return turn(AbsDir.toCcw(faceDir));
     }
+    
+    public boolean fireLaser()
+    {
+        Sprite target = null;
+        Point2D targetPt = null;
+        if (spend(LASER_ACTIONS, LASER_FUEL))
+        {
+            Point p = this.getLocationBlock();
+            for (int v = 1; v <= VISION_RANGE; v++)
+            {
+                p.x += faceDir.getX();
+                p.y += faceDir.getY();
+                if (MAP[p.x][p.y] != null)
+                {
+                    Object obj = MAP[p.x][p.y];
+                    if (obj instanceof Sprite)
+                    {
+                        // Shoot target:
+                        target = ((Sprite)obj);
+                        targetPt = target.getCenterPoint();
+                        SHORT_ACTIONS.add(new BotLaser(this, target, targetPt));
+                        return true;
+                    }
+                }
+            }
+            // Shoot empty space:
+            targetPt = this.getCenterPoint().add(VISION_RANGE * BLOCK_SZ * faceDir.getX(), VISION_RANGE * BLOCK_SZ * faceDir.getY());
+            SHORT_ACTIONS.add(new BotLaser(this, target, targetPt));
+            return true;
+        }
+        else
+            return false;
+    }
+    
     
     @Override
     public char getVisionCode() {

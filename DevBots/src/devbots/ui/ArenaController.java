@@ -7,7 +7,6 @@ package devbots.ui;
 
 import devbots.sprites.Bot;
 import devbots.sprites.Wall;
-import static devbots.sprites.Bot.ACTION_QUEUE;
 import static devbots.sprites.Bot.BOTS;
 import static devbots.Global.ANIM_INC;
 import static devbots.Global.H_BLOCKS;
@@ -38,6 +37,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.WindowEvent;
 import javax.script.ScriptException;
+import static devbots.sprites.Bot.LONG_ACTIONS;
+import javafx.geometry.Point2D;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.StrokeType;
 
 /**
  * FXML Controller class
@@ -54,6 +57,7 @@ public class ArenaController implements Initializable {
     private MenuItem mniStartSim;
         
     public static Object[][] MAP = new Object[W_BLOCKS][H_BLOCKS];
+    public static ArenaController Controller = null;
     private Thread mainLoopThread = null;     
     private int turn = 1;
     private boolean exit = false;
@@ -65,9 +69,10 @@ public class ArenaController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Controller = this;
         pnArenaPane.setBackground(new Background(new BackgroundFill(new Color(.615, .547, .482, 1.0), CornerRadii.EMPTY, Insets.EMPTY)));
         makeMap(150, 50, 20, 15, 10);        
-        loadBots();
+        loadBots();        
     }    
     
     private void loadBots()
@@ -186,6 +191,13 @@ public class ArenaController implements Initializable {
         }
     }
     
+    public void addLaser(Point2D start, Point2D end)
+    {
+        Line laser = new Line(start.getX(), start.getY(), end.getX(), end.getY());
+        laser.setStrokeWidth(1.5);
+        laser.setStroke(Color.GREENYELLOW);
+        pnArenaPane.getChildren().add(laser);
+    }
     
     @FXML
     private void startSim(ActionEvent event) {
@@ -216,12 +228,12 @@ public class ArenaController implements Initializable {
             long startTime = System.currentTimeMillis();
             
             // Begin with the last action, using a decrement, so items can be removed without causing problems:
-            for (int a = ACTION_QUEUE.size()-1; a >= 0; a--)
+            for (int a = LONG_ACTIONS.size()-1; a >= 0; a--)
             {                                
-                ACTION_QUEUE.get(a).doInc();
-                if (ACTION_QUEUE.get(a).isDone())
+                LONG_ACTIONS.get(a).doInc();
+                if (LONG_ACTIONS.get(a).isDone())
                 {
-                    ACTION_QUEUE.remove(a);
+                    LONG_ACTIONS.remove(a);
                 }
             }
             
