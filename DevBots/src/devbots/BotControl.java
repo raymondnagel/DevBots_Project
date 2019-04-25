@@ -71,6 +71,7 @@ public class BotControl {
     public void say(String text)
     {
         System.out.println("[" + bot.getName() + "]: \"" + text + "\"");
+        new SpeechBubble().bindTo(bot);
     }
     
     public boolean scan()

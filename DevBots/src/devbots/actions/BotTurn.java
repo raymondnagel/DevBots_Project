@@ -6,15 +6,16 @@
 package devbots.actions;
 
 import devbots.AbsDir;
+import static devbots.Global.TURN_AP;
+import static devbots.Global.TURN_INC;
 import devbots.sprites.Bot;
-import static devbots.Global.ANIM_INC;
-
 
 /**
  *
  * @author Raymond
  */
-public final class BotTurn extends TimedAction{
+public final class BotTurn extends BotAction
+{
     private Bot bot = null;
     private double fromAngle = 0.0;
     private double toAngle = 0.0;
@@ -22,16 +23,17 @@ public final class BotTurn extends TimedAction{
     private double change = 0.0;
     private AbsDir direction = null;
 
-    public BotTurn(Bot bot, AbsDir dir) {
-        super(ANIM_INC);
+    public BotTurn(Bot bot, AbsDir dir)
+    {
+        super(TURN_INC, TURN_AP);
         this.bot = bot;
-        this.fromAngle = this.bot.getFaceDir().getDegrees();        
+        this.fromAngle = this.bot.getFaceDir().getDegrees();
         this.toAngle = dir.getDegrees();
         this.actual = this.fromAngle;
         this.direction = dir;
         adjustToAngle();
     }
-    
+
     private void adjustToAngle()
     {
         double diff = toAngle - fromAngle;
@@ -39,40 +41,40 @@ public final class BotTurn extends TimedAction{
         {
             if (toAngle >= fromAngle)
             {
-                fromAngle += 360.0;                
-            }
-            else
+                fromAngle += 360.0;
+            } else
             {
-                toAngle += 360.0;                
+                toAngle += 360.0;
             }
             diff = toAngle - fromAngle;
         }
         this.change = diff / this.getMaxIncs();
     }
-    
+
     private void changeAngle()
     {
-        actual += change;        
+        actual += change;
         this.bot.setRotate(normalizeAngle(actual));
     }
-    
+
     @Override
-    protected void _inc() {        
+    protected void _inc()
+    {
         // Perform the increment:
-        changeAngle();               
+        changeAngle();
     }
-    
+
     @Override
-    protected void _onFinish() {
+    protected void _onFinish()
+    {
         // Ensure that we finish precisely toward the given direction:
         this.bot.setRotate(direction.getDegrees());
         this.bot.setFaceDir(direction);
     }
-    
+
     private double normalizeAngle(double angle)
     {
         return angle % 360;
     }
 
-    
 }

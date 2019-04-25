@@ -17,8 +17,6 @@ public abstract class Sprite extends ImageView {
     
     private boolean removeFlag = false;
     
-    public abstract char getVisionCode();
-    
     public void flagToRemove()
     {
         this.removeFlag = true;
@@ -27,11 +25,6 @@ public abstract class Sprite extends ImageView {
     public boolean isFlaggedToRemove()
     {
         return this.removeFlag;
-    }
-    
-    public void setLocationBlock(int x, int y)
-    {
-        this.relocate(x * BLOCK_SZ, y * BLOCK_SZ);
     }
     
     public Point2D getCenterPoint()

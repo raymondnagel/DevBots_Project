@@ -5,14 +5,13 @@
  */
 package devbots.sprites;
 
-import static devbots.Global.BLOCK_SZ;
 import javafx.scene.image.Image;
 
 /**
  *
  * @author Raymond
  */
-public class Wall extends Sprite {
+public class Wall extends SyncSprite {
 
     private static final Image DEFAULT_IMAGE;
     static

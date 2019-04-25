@@ -8,8 +8,8 @@ package devbots.ui;
 import devbots.sprites.Bot;
 import devbots.sprites.Wall;
 import static devbots.sprites.Bot.BOTS;
-import static devbots.Global.ANIM_INC;
 import static devbots.Global.H_BLOCKS;
+import static devbots.Global.MAX_INC;
 import static devbots.Global.MAX_STEP_TIME;
 import static devbots.Global.W_BLOCKS;
 import devbots.sprites.BombPack;
@@ -37,10 +37,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.WindowEvent;
 import javax.script.ScriptException;
-import static devbots.sprites.Bot.LONG_ACTIONS;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.StrokeType;
+import static devbots.sprites.Bot.ACTIONS;
 
 /**
  * FXML Controller class
@@ -223,17 +222,17 @@ public class ArenaController implements Initializable {
         }        
         
         // Increment all queued actions at the same time:
-        for (int i = 0; i < ANIM_INC; i++)
+        for (int i = 0; i < MAX_INC; i++)
         {
             long startTime = System.currentTimeMillis();
             
             // Begin with the last action, using a decrement, so items can be removed without causing problems:
-            for (int a = LONG_ACTIONS.size()-1; a >= 0; a--)
+            for (int a = ACTIONS.size()-1; a >= 0; a--)
             {                                
-                LONG_ACTIONS.get(a).doInc();
-                if (LONG_ACTIONS.get(a).isDone())
+                ACTIONS.get(a).doInc();
+                if (ACTIONS.get(a).isDone())
                 {
-                    LONG_ACTIONS.remove(a);
+                    ACTIONS.remove(a);
                 }
             }
             

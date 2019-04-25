@@ -9,6 +9,6 @@ package devbots.sprites;
  *
  * @author raymond.nagel
  */
-public abstract class Traversable extends Sprite {
+public abstract class Traversable extends SyncSprite {
     
 }

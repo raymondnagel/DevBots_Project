@@ -16,18 +16,20 @@ import javafx.stage.Stage;
  *
  * @author Raymond
  */
-public class DevBots extends Application {
-    
+public class DevBots extends Application
+{
+
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        
+    public void start(Stage primaryStage) throws Exception
+    {
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(DevBots.class.getResource("ui/Arena.fxml"));
         BorderPane root = loader.<BorderPane>load();
-        
+
         Scene scene = new Scene(root);
-        
-        Pane pnArenaPane = (Pane)root.lookup("#pnArenaPane");
+
+        Pane pnArenaPane = (Pane) root.lookup("#pnArenaPane");
 
         primaryStage.setTitle("DevBots");
         primaryStage.setScene(scene);
@@ -37,8 +39,9 @@ public class DevBots extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         launch(args);
     }
-    
+
 }

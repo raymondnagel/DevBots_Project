@@ -2,6 +2,25 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/sprites/Bot.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/actions/BotMove.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/ui/ArenaController.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/actions/BotLaser.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/sprites/Traversable.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/sprites/Wall.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/Global.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/actions/BotAction.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/sprites/Consumable.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/sprites/BombPack.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/sprites/Anim.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/sprites/Explosion.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/sprites/Sprite.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/sprites/Treasure.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/BotControl.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/sprites/SyncSprite.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/actions/BotTurn.java</file>
+            <file>file:/C:/Users/raymond.nagel/Desktop/gh_repos/DevBots_Project/DevBots/src/devbots/DevBots.java</file>
+        </group>
     </open-files>
 </project-private>
